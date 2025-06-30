@@ -42,8 +42,10 @@ class HolidayTheme {
 }
 
 class HolidayThemes {
-  static HolidayTheme getThemeForDate(DateTime date) {
-    // Упрощенная проверка дат
+  static Future<HolidayTheme> getThemeForDateAsync(DateTime date) async {
+    await Future.delayed(const Duration(milliseconds: 50)); // Даем время на инициализацию
+
+    // Упрощенная проверка дат (можно вернуть вашу сложную логику)
     if (date.month == 12 && date.day >= 25 && date.day <= 31) {
       return HolidayTheme(
         holidayName: 'С Новым Годом!',
@@ -57,7 +59,7 @@ class HolidayThemes {
         icon: Icons.ac_unit,
         appBarTitle: 'Новогоднее приложение',
       );
-    } else if (date.month == 5 && date.day >= 1 && date.day <= 10) {
+    } else if (date.month == 5 && date.day == 9) {
       return HolidayTheme(
         holidayName: 'День Победы - 9 Мая',
         backgroundColor: Colors.orange[50]!,

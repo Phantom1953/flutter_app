@@ -3,32 +3,33 @@ import 'auth_panel.dart';
 import 'holiday_themes.dart';
 
 class FirstListScreen extends StatefulWidget {
-  const FirstListScreen({super.key});
+  final HolidayTheme initialTheme;
+
+  const FirstListScreen({
+    super.key,
+    required this.initialTheme,
+  });
 
   @override
   State<FirstListScreen> createState() => _FirstListScreenState();
 }
 
 class _FirstListScreenState extends State<FirstListScreen> {
-  final AuthPanelController _authPanelController = AuthPanelController();
-  bool _isAuthenticated = false;
-  String _username = '';
-  HolidayTheme _currentTheme = HolidayTheme.defaultTheme();
+  late AuthPanelController _authPanelController;
+  late bool _isAuthenticated;
+  late String _username;
+  late HolidayTheme _currentTheme;
 
   @override
   void initState() {
     super.initState();
-    _checkHoliday();
+    _authPanelController = AuthPanelController();
+    _isAuthenticated = false;
+    _username = '';
+    _currentTheme = widget.initialTheme;
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _authPanelController.open();
-    });
-  }
-
-  void _checkHoliday() {
-    final now = DateTime.now();
-    final theme = HolidayThemes.getThemeForDate(now);
-    setState(() {
-      _currentTheme = theme;
     });
   }
 
