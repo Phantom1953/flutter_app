@@ -3,12 +3,7 @@ import 'auth_panel.dart';
 import 'holiday_themes.dart';
 
 class FirstListScreen extends StatefulWidget {
-  final HolidayTheme initialTheme;
-
-  const FirstListScreen({
-    super.key,
-    required this.initialTheme,
-  });
+  const FirstListScreen({super.key});
 
   @override
   State<FirstListScreen> createState() => _FirstListScreenState();
@@ -19,6 +14,7 @@ class _FirstListScreenState extends State<FirstListScreen> {
   late bool _isAuthenticated;
   late String _username;
   late HolidayTheme _currentTheme;
+  bool _isThemeLoaded = false;
 
   @override
   void initState() {
@@ -26,11 +22,18 @@ class _FirstListScreenState extends State<FirstListScreen> {
     _authPanelController = AuthPanelController();
     _isAuthenticated = false;
     _username = '';
-    _currentTheme = widget.initialTheme;
+    _currentTheme = HolidayTheme.defaultTheme();
 
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _authPanelController.open();
+    _loadTheme();
+  }
+
+  Future<void> _loadTheme() async {
+    final theme = await HolidayThemes.getThemeForDateAsync(DateTime.now());
+    setState(() {
+      _currentTheme = theme;
+      _isThemeLoaded = true;
     });
+    _authPanelController.open();
   }
 
   void _onLoginSuccess(String username) {
@@ -43,6 +46,12 @@ class _FirstListScreenState extends State<FirstListScreen> {
 
   @override
   Widget build(BuildContext context) {
+    if (!_isThemeLoaded) {
+      return const Scaffold(
+        body: Center(child: CircularProgressIndicator()),
+      );
+    }
+
     return Scaffold(
       backgroundColor: _currentTheme.backgroundColor,
       appBar: AppBar(
