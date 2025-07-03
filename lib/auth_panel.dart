@@ -108,7 +108,7 @@ class AuthPanel extends StatelessWidget {
               const SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () {
-                  onLoginSuccess('Пользователь');
+                  onLoginSuccess('Пользователь'); // Упрощенный вход
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: theme.buttonColor,

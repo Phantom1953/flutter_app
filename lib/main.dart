@@ -14,7 +14,17 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Праздничное приложение',
       debugShowCheckedModeBanner: false,
-      home: const FirstListScreen(),
+      home: FutureBuilder<HolidayTheme>(
+        future: HolidayThemes.getThemeForDateAsync(DateTime.now()),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.done) {
+            return FirstListScreen(initialTheme: snapshot.data!);
+          }
+          return const Scaffold(
+            body: Center(child: CircularProgressIndicator()),
+          );
+        },
+      ),
     );
   }
 }

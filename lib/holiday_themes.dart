@@ -46,6 +46,7 @@ class HolidayThemes {
     _isNewYear: _newYearTheme,
     _isVictoryDay: _victoryDayTheme,
     _isRussiaDay: _russiaDayTheme,
+    // Добавьте другие праздники здесь
   };
 
   static bool _isNewYear(DateTime date) {
